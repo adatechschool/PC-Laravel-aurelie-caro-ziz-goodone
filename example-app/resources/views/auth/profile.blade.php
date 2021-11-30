@@ -62,7 +62,31 @@
                         name="password_confirmation" 
                         placeholder="@lang('Confirm your Password')">
                 </div>
-                <title="Save" />
+
+                 <!-- biography -->
+                 <div>
+                    <label for="biography">@lang('Biography')</label> 
+                    <input 
+                        id="biography" 
+                        class="h-full-width" 
+                        type="text" 
+                        name="biography" 
+                        placeholder="@lang('Write Your Biography')">
+                </div>
+                <!-- photo -->
+                <!-- <div>
+                    <label for="photo">@lang('Photo')</label> 
+                    <input 
+                        id="photo" 
+                        class="h-full-width" 
+                        type="url" 
+                        name="photo" 
+                        placeholder="@lang('Upload your photo')">
+                </div> -->
+
+                <x-button class="ml-3">
+                    {{ __('save') }}
+                </x-button> 
                  
             </form>
         </div>

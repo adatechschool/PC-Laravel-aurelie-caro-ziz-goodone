@@ -37,6 +37,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'biography' => ['required', 'string', 'max:255'],
+
         ]);
 
         $user = User::create([
@@ -54,10 +56,12 @@ class RegisteredUserController extends Controller
 
     public function update(Request $request)
 {
-    $values = $request->only(['name', 'email']);
+    $values = $request->only(['name', 'email', 'biography']);
     $rules = [
         'name' => 'required|max:255|unique:users,name,' . $request->user()->id,
         'email' => 'required|email|max:255|unique:users,email,' . $request->user()->id,
+        'biography' => 'required|max:255|unique:users,biography,' . $request->user()->id,
+        // 'photo' => 'required|img_profil|unique:users,img_profil,' . $request->user()->id,
     ];
     if($request->password) {
         $rules['password'] = 'string|confirmed|min:8';
