@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 
+use App\Http\Controllers\Auth\RegisteredUserController;
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,3 +30,9 @@ require __DIR__.'/auth.php';
 
 Route::resource('/articles', ArticleController::class);
 Route::resource('/users', UserController::class);
+
+// Profile
+Route::middleware('auth')->group(function () {
+    Route::view('profile', 'auth.profile');
+    Route::name('profile')->put('profile', [RegisteredUserController::class, 'update']);
+});
