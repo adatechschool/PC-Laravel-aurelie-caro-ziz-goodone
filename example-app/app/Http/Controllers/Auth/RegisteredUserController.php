@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Storage;
 
 class RegisteredUserController extends Controller
 {
@@ -39,6 +40,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'biography' => ['required', 'string', 'max:255'],
 
+
         ]);
 
         $user = User::create([
@@ -61,8 +63,11 @@ class RegisteredUserController extends Controller
         'name' => 'required|max:255|unique:users,name,' . $request->user()->id,
         'email' => 'required|email|max:255|unique:users,email,' . $request->user()->id,
         'biography' => 'required|max:255|unique:users,biography,' . $request->user()->id,
-        // 'photo' => 'required|img_profil|unique:users,img_profil,' . $request->user()->id,
+        'photo' => 'required|image|unique:users,img_profil,' . $request->user()->id,
     ];
+    $path=$request->file('photo')->store('photos');
+    $url = Storage::url($path);
+
     if($request->password) {
         $rules['password'] = 'string|confirmed|min:8';
         $values['password'] =  Hash::make($request->password);
@@ -70,6 +75,7 @@ class RegisteredUserController extends Controller
     $request->validate($rules);
     $request->user()->update($values);
     
-    return back()->with('status', __('You have been successfully updated.'));
+    return $url;
+    return back()->with('status', __('You have been successfully updated.'. print_r($request->all(), true)));
 }
 }

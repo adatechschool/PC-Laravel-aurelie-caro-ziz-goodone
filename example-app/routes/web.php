@@ -5,7 +5,7 @@ use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 
 use App\Http\Controllers\Auth\RegisteredUserController;
-
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::view('profile', 'auth.profile');
     Route::name('profile')->put('profile', [RegisteredUserController::class, 'update']);
 });
+
+
+//photos
+// Route::get('/photos', function () {
+    
+// })->name('storage.app.photos');

@@ -10,8 +10,8 @@
             <x-auth-session-status :status="session('status')" />
             <!-- Validation Errors -->
             <x-auth-validation-errors :errors="$errors" />
-            <h3 class="h-add-bottom">@lang('Profile')</h3>
-            <form class="h-add-bottom" method="POST" action="{{ route('profile') }}">
+ 
+            <form class="h-add-bottom" method="POST" action="{{ route('profile') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 
@@ -74,21 +74,22 @@
                         placeholder="@lang('Write Your Biography')">
                 </div>
                 <!-- photo -->
-                <!-- <div>
+                <div>
                     <label for="photo">@lang('Photo')</label> 
                     <input 
                         id="photo" 
                         class="h-full-width" 
-                        type="url" 
+                        type="file" 
                         name="photo" 
                         placeholder="@lang('Upload your photo')">
-                </div> -->
+                </div>
 
+                
                 <x-button class="ml-3">
                     {{ __('save') }}
-                </x-button> 
-                 
+            </x-button> 
             </form>
+            
         </div>
     </div>
 </x-app-layout>
