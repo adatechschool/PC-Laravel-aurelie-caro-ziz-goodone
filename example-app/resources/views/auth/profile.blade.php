@@ -75,13 +75,12 @@
                 </div>
                 <!-- photo -->
                 <div>
-                    <label for="photo">@lang('Photo')</label> 
+                    <label for="img_profil">@lang('Photo')</label> 
                     <input 
-                        id="photo" 
+                        id="img_profil" 
                         class="h-full-width" 
                         type="file" 
-                        name="photo" 
-                        placeholder="@lang('Upload your photo')">
+                        name="img_profil" >
                 </div>
 
                 

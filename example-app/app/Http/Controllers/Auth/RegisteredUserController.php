@@ -39,6 +39,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'biography' => ['required', 'string', 'max:255'],
+            'img_profil' => ['required','string', 'max:5048']
 
 
         ]);
@@ -58,16 +59,24 @@ class RegisteredUserController extends Controller
 
     public function update(Request $request)
 {
-    $values = $request->only(['name', 'email', 'biography']);
+    // $newPhoto = time() . '-' . $request->name . '.' .
+    // $request->img_profil->extension();
+
+    // $request->img_profil->move(storage_path('app/public/photos'), $newPhoto);
+    $path=$request->file('img_profil')->store('public/photos');
+    $url = Storage::url($path);
+
+    // dd($url);
+    $values = $request->only(['name', 'email', 'biography', 'img_profil']);
+    $values['img_profil'] = $url;
     $rules = [
         'name' => 'required|max:255|unique:users,name,' . $request->user()->id,
         'email' => 'required|email|max:255|unique:users,email,' . $request->user()->id,
         'biography' => 'required|max:255|unique:users,biography,' . $request->user()->id,
-        'photo' => 'required|image|unique:users,img_profil,' . $request->user()->id,
+        'img_profil' => 'required|image|unique:users,img_profil,' . $request->user()->id,
     ];
-    $path=$request->file('photo')->store('photos');
-    $url = Storage::url($path);
-
+    
+    
     if($request->password) {
         $rules['password'] = 'string|confirmed|min:8';
         $values['password'] =  Hash::make($request->password);
@@ -75,7 +84,7 @@ class RegisteredUserController extends Controller
     $request->validate($rules);
     $request->user()->update($values);
     
-    return $url;
+    // return $url;
     return back()->with('status', __('You have been successfully updated.'. print_r($request->all(), true)));
 }
 }
