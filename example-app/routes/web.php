@@ -32,6 +32,12 @@ Route::resource('/articles', ArticleController::class);
 Route::resource('/users', UserController::class);
 
 // Profile
+
+// Route::resource('users')->group(function () {
+//     Route::view('show', 'users.show');
+//     Route::name('profile')->put('profile', [UserController::class, 'index']);
+// });
+
 Route::middleware('auth')->group(function () {
     Route::view('profile', 'auth.profile');
     Route::name('profile')->put('profile', [RegisteredUserController::class, 'update']);
